@@ -2,8 +2,7 @@ import { useState } from "react"
 import { Menu, X, Sparkles, SquareTerminal, Activity, LifeBuoy, type LucideIcon } from "lucide-react"
 import { Link } from "react-router-dom"
 import { LINKS } from "@/lib/links"
-import { Button } from "@/components/ui/Button"
-import { LoginButton, LoginButtonMobile } from "@/components/LoginButton"
+import { AddToServerButton } from "@/components/AddToServerButton"
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -28,12 +27,7 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <LoginButton />
-          <Button variant="primary" size="sm" asChild>
-            <a href={LINKS.invite} target="_blank" rel="noopener noreferrer">
-              Add to Server
-            </a>
-          </Button>
+          <AddToServerButton />
         </div>
 
         <button
@@ -52,12 +46,7 @@ export function Navbar() {
             <MobileNavLink href="/stats" icon={Activity} onClick={() => setMobileOpen(false)}>Stats</MobileNavLink>
             <MobileNavLink href={LINKS.support} icon={LifeBuoy} onClick={() => setMobileOpen(false)}>Support</MobileNavLink>
             <div className="pt-2 space-y-2">
-              <LoginButtonMobile />
-              <Button variant="primary" size="md" className="w-full" asChild>
-                <a href={LINKS.invite} target="_blank" rel="noopener noreferrer">
-                  Add to Server
-                </a>
-              </Button>
+              <AddToServerButton full />
             </div>
           </div>
         </div>

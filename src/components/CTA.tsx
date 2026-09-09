@@ -1,6 +1,7 @@
 import { ArrowRight, MessageCircle } from "lucide-react"
 import { LINKS } from "@/lib/links"
 import { Button } from "@/components/ui/Button"
+import { AddToServerButton } from "@/components/AddToServerButton"
 
 export function CTA() {
   return (
@@ -50,12 +51,10 @@ export function CTA() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" asChild className="bg-white text-brand hover:bg-white/90 hover:shadow-[0_15px_40px_rgba(0,0,0,.2)]">
-                <a href={LINKS.invite} target="_blank" rel="noopener noreferrer">
+              <AddToServerButton size="lg" className="bg-white text-brand hover:bg-white/90 hover:shadow-[0_15px_40px_rgba(0,0,0,.2)]">
                   Add to Server · Free
                   <ArrowRight className="h-4 w-4" />
-                </a>
-              </Button>
+                </AddToServerButton>
               <Button
                 variant="secondary"
                 size="lg"

@@ -1,7 +1,7 @@
 import { Link2, ListMusic, Play } from "lucide-react"
 import { Badge } from "@/components/ui/Badge"
-import { LINKS } from "@/lib/links"
-import { Button } from "@/components/ui/Button"
+import { DiscordIcon } from "@/components/ui/DiscordIcon"
+import { AddToServerButton } from "@/components/AddToServerButton"
 
 const steps = [
   {
@@ -57,12 +57,10 @@ export function HowItWorks() {
         </div>
 
         <div className="mt-14 text-center">
-          <Button size="lg" asChild>
-            <a href={LINKS.invite} target="_blank" rel="noopener noreferrer">
-              <Play className="h-4 w-4" />
+          <AddToServerButton size="lg">
+              <DiscordIcon className="h-4 w-4" />
               Start listening now
-            </a>
-          </Button>
+            </AddToServerButton>
         </div>
       </div>
     </section>

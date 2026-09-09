@@ -1,7 +1,9 @@
-import { ArrowRight, Play, AudioLines, ListMusic, LayoutDashboard } from "lucide-react"
+import { ArrowRight, AudioLines, ListMusic, LayoutDashboard } from "lucide-react"
 import { useEffect, useState } from "react"
 import { LINKS } from "@/lib/links"
 import { Button } from "@/components/ui/Button"
+import { DiscordIcon } from "@/components/ui/DiscordIcon"
+import { AddToServerButton } from "@/components/AddToServerButton"
 
 const FEATURES = [
   { icon: AudioLines, label: "Lossless audio" },
@@ -118,12 +120,10 @@ export function Hero() {
             className="flex flex-wrap items-center gap-4 mb-10 animate-fade-in-left"
             style={{ animationDelay: "0.3s" }}
           >
-            <Button size="lg" asChild>
-              <a href={LINKS.invite} target="_blank" rel="noopener noreferrer">
-                <Play className="h-4 w-4" />
-                Add to Server
-              </a>
-            </Button>
+            <AddToServerButton size="lg">
+              <DiscordIcon className="h-4 w-4" />
+              Add to Server
+            </AddToServerButton>
             <Button variant="secondary" size="lg" asChild>
               <a href={LINKS.support} target="_blank" rel="noopener noreferrer">
                 Join Discord
