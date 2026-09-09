@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom"
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { Navbar } from "@/components/Navbar"
 import { Hero } from "@/components/Hero"
@@ -12,6 +12,7 @@ import { CTA } from "@/components/CTA"
 import { Footer } from "@/components/Footer"
 import { Toaster } from "sonner"
 import { TooltipProvider } from "@/components/ui/Tooltip"
+import { LINKS } from "@/lib/links"
 
 function Home() {
   return (
@@ -53,6 +54,17 @@ function CommandsPage() {
   )
 }
 
+function InviteGate() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    window.open(LINKS.invite, "_blank")
+    navigate("/", { replace: true })
+  }, [navigate])
+
+  return null
+}
+
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => {
@@ -70,6 +82,7 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/invite" element={<InviteGate />} />
           <Route path="/features" element={<FeaturesPage />} />
           <Route path="/commands" element={<CommandsPage />} />
           <Route path="/stats" element={<StatsPage />} />
