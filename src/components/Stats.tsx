@@ -21,26 +21,27 @@ export function Stats() {
       .catch(() => setStats(null))
   }, [])
 
-  const uptime = stats?.uptime ?? "—"
+  const UPTIME_FALLBACK = "N/A"
+  const uptime = stats?.uptime ?? UPTIME_FALLBACK
 
   const items = [
     { icon: Server, label: "Servers", value: stats?.guilds },
     { icon: Users, label: "Users", value: stats?.users },
     { icon: Music, label: "Commands", value: stats?.commands },
-    { icon: Zap, label: "Uptime", value: uptime !== "—" ? uptime : "—" },
+    { icon: Zap, label: "Uptime", value: uptime !== UPTIME_FALLBACK ? uptime : UPTIME_FALLBACK },
   ]
 
   return (
-    <section id="stats" className="border-t border-border py-16 lg:py-20">
+    <section id="stats" className="py-16 lg:py-20">
       <div className="mx-auto max-w-[1200px] px-6">
-        <p className="mx-auto max-w-xl text-center text-xl italic text-text-muted sm:text-2xl">
-          Trusted by{" "}
-          <span className="font-serif font-semibold text-text-primary">
+        <p className="mx-auto max-w-3xl text-center text-3xl text-text-muted sm:text-5xl font-[family-name:var(--font-script)] leading-[1.3]">
+          <span className="inline-block translate-x-[calc(25%+1.5cm)] -translate-y-[calc(2.5rem+18%)] -rotate-3">Trusted by</span>{" "}
+          <span className="inline-block translate-x-6 -translate-y-3 -rotate-3 text-4xl sm:text-6xl text-brand underline decoration-brand/60 decoration-[3px] underline-offset-8">
             {typeof stats?.guilds === "number" ? stats.guilds.toLocaleString() : "hundreds of"}
           </span>{" "}
-          communities
+          <span className="inline-block -translate-x-[calc(35%+0.75rem)] translate-y-6 rotate-2">communities</span>
         </p>
-        <p className="mt-2 text-center text-sm text-text-disabled">
+        <p className="mt-2 text-center text-sm text-text-disabled font-[family-name:var(--font-script-soft)]">
           {stats ? `v${stats.version}` : "Live data from the bot"}
         </p>
 

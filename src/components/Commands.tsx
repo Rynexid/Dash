@@ -1,5 +1,6 @@
 import { CardHover } from "@/components/ui/Card"
 import { Badge } from "@/components/ui/Badge"
+import { Search } from "lucide-react"
 import { useState } from "react"
 
 const categories = [
@@ -120,58 +121,139 @@ const categories = [
 
 export function Commands() {
   const [active, setActive] = useState(0)
+  const [query, setQuery] = useState("")
   const totalCommands = categories.reduce((acc, c) => acc + c.commands.length, 0)
 
+  const q = query.trim().toLowerCase()
+  const searching = q.length > 0
+  const searchResults = searching
+    ? categories.flatMap((cat) =>
+        cat.commands
+          .filter((cmd) => cmd.name.includes(q) || cmd.description.toLowerCase().includes(q))
+          .map((cmd) => ({ ...cmd, category: cat.name, color: cat.color }))
+      )
+    : []
+
   return (
-    <section id="commands" className="relative py-32 border-t border-border">
+    <section id="commands" className="relative pt-36 pb-32">
       <div className="mx-auto max-w-[1200px] px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <p className="text-sm font-medium text-brand mb-3 tracking-wide uppercase">Commands</p>
           <h2 className="text-4xl sm:text-[40px] font-extrabold tracking-[-0.02em] mb-4 font-[family-name:var(--font-heading)]">
             Powerful by default
           </h2>
           <p className="text-text-muted text-lg max-w-md mx-auto">
-            {totalCommands} commands across {categories.length} categories. Everything you need, nothing you don't.
+            {totalCommands} commands across {categories.length} categories.
           </p>
+        </div>
+
+        {/* Search */}
+        <div className="mx-auto mb-8 max-w-xl">
+          <div className="flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2.5 transition-colors focus-within:border-brand/40">
+            <Search className="h-4 w-4 text-text-disabled" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search commands... e.g. bass or play"
+              className="w-full bg-transparent text-sm text-text-primary placeholder:text-text-disabled focus:outline-none"
+            />
+            {searching && (
+              <span className="text-xs text-text-disabled">{searchResults.length} result{searchResults.length !== 1 ? "s" : ""}</span>
+            )}
+          </div>
         </div>
 
         {/* Category tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((cat, i) => (
-            <button
-              key={cat.name}
-              onClick={() => setActive(i)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                active === i
-                  ? "bg-brand/10 text-brand border border-brand/20"
-                  : "text-text-muted hover:text-text-primary hover:bg-white/5 border border-transparent"
-              }`}
-            >
-              {cat.name}
-              <span className="ml-1.5 text-xs text-text-disabled">({cat.commands.length})</span>
-            </button>
-          ))}
+          {categories.map((cat, i) => {
+            const count = q
+              ? cat.commands.filter(
+                  (c) => c.name.includes(q) || c.description.toLowerCase().includes(q)
+                ).length
+              : cat.commands.length
+            return (
+              <button
+                key={cat.name}
+                onClick={() => setActive(i)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  active === i
+                    ? "bg-brand/10 text-brand border border-brand/20"
+                    : "text-text-muted hover:text-text-primary hover:bg-white/5 border border-transparent"
+                }`}
+              >
+                {cat.name}
+                <span className="ml-1.5 text-xs text-text-disabled">({count})</span>
+              </button>
+            )
+          })}
         </div>
 
         {/* Command list */}
         <div className="max-w-3xl mx-auto">
           <CardHover className="p-6">
-            <div className="space-y-0.5">
-              {categories[active].commands.map((cmd) => (
-                <div
-                  key={cmd.name}
-                  className="flex items-center justify-between p-3 rounded-[12px] hover:bg-white/3 transition-colors group"
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-sm font-semibold font-[family-name:var(--font-mono)] text-text-primary group-hover:text-brand transition-colors whitespace-nowrap">
-                      /{cmd.name}
-                    </span>
-                    <span className="text-sm text-text-muted truncate">{cmd.description}</span>
-                  </div>
-                  <Badge variant="default" className="text-[10px] flex-shrink-0 ml-3">{categories[active].name}</Badge>
+            {searching ? (
+              searchResults.length > 0 ? (
+                <div className="space-y-0.5">
+                  {searchResults.map((cmd) => (
+                    <div
+                      key={`${cmd.category}-${cmd.name}`}
+                      className="group relative flex items-center justify-between p-3 rounded-[12px] hover:bg-white/3 transition-colors"
+                    >
+                      <span
+                        className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-full"
+                        style={{ backgroundColor: cmd.color, opacity: 0.35 }}
+                        aria-hidden="true"
+                      />
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="text-sm font-semibold font-[family-name:var(--font-mono)] text-text-primary group-hover:text-brand transition-colors whitespace-nowrap">
+                          /{cmd.name}
+                        </span>
+                        <span className="text-sm text-text-muted truncate" title={cmd.description}>
+                          {cmd.description}
+                        </span>
+                      </div>
+                      <Badge variant="default" className="text-[10px] flex-shrink-0 ml-3" title={cmd.category}>
+                        {cmd.category}
+                      </Badge>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              ) : (
+                <div className="py-8 text-center text-sm text-text-muted">
+                  No commands match "{(query.trim())}". Try a different keyword.
+                </div>
+              )
+            ) : (
+              <div className="space-y-0.5">
+                {categories[active].commands.map((cmd) => (
+                  <div
+                    key={cmd.name}
+                    className="group relative flex items-center justify-between p-3 rounded-[12px] hover:bg-white/3 transition-colors"
+                  >
+                    <span
+                      className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
+                      style={{ backgroundColor: categories[active].color }}
+                      aria-hidden="true"
+                    />
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="text-sm font-semibold font-[family-name:var(--font-mono)] text-text-primary group-hover:text-brand transition-colors whitespace-nowrap">
+                        /{cmd.name}
+                      </span>
+                      <span className="text-sm text-text-muted truncate" title={cmd.description}>
+                        {cmd.description}
+                      </span>
+                    </div>
+                    <Badge
+                      variant="default"
+                      className="text-[10px] flex-shrink-0 ml-3"
+                      title={categories[active].name}
+                    >
+                      {categories[active].name}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardHover>
         </div>
       </div>

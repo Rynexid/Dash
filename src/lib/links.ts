@@ -7,4 +7,7 @@ export const LINKS = {
   support: SORAKU_INVITE,
   github: GITHUB,
   poweredBy: "https://rynexdev.vercel.app?ref=discord",
+  youtube: "#",
+  twitter: "#",
+  patreon: "#",
 } as const

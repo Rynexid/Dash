@@ -2,10 +2,9 @@ import { Heart } from "lucide-react"
 import { LINKS } from "@/lib/links"
 
 const resources = [
-  { label: "Commands", href: "#commands" },
+  { label: "Commands", href: "/commands" },
   { label: "Features", href: "#features" },
   { label: "Stats", href: "#stats" },
-  { label: "FAQ", href: "#faq" },
 ]
 
 const community = [
@@ -26,17 +25,13 @@ export function Footer() {
               <span className="text-base font-bold tracking-tight font-[family-name:var(--font-heading)]">Rynote</span>
             </a>
             <p className="mt-3 text-sm leading-relaxed text-text-muted">
-              Music that moves your server — high-quality playback, playlists, filters, and a live dashboard.
+              Music that moves your server: high-quality playback, playlists, filters, and a live dashboard.
             </p>
-            <div className="mt-5">
-              <a
-                href={LINKS.invite}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-lg bg-brand px-5 text-sm font-medium text-white transition-all hover:bg-brand-hover hover:shadow-[0_15px_40px_rgba(94,162,255,.18)]"
-              >
-                Add to Server
-              </a>
+            <div className="mt-5 flex items-center gap-2">
+              <SocialIcon src="/social/discord.png" label="Discord" href={LINKS.support} />
+              <SocialIcon src="/social/youtube.png" label="YouTube" href={LINKS.youtube} />
+              <SocialIcon src="/social/twitter-blue.png" label="Twitter / X" href={LINKS.twitter} />
+              <SocialIcon src="/social/Patreon.png" label="Patreon" href={LINKS.patreon} />
             </div>
           </div>
 
@@ -81,6 +76,21 @@ export function Footer() {
         </div>
       </div>
     </footer>
+  )
+}
+
+function SocialIcon({ src, label, href }: { src: string; label: string; href: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={label}
+      aria-label={label}
+      className="flex h-11 w-11 items-center justify-center rounded-xl transition-all hover:scale-110 hover:opacity-80"
+    >
+      <img src={src} alt="" className="h-7 w-7" />
+    </a>
   )
 }
 
