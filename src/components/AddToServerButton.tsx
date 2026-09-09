@@ -24,6 +24,7 @@ export function AddToServerButton({ className, full = false, children, ...props 
       await authClient.signIn.social({
         provider: "discord",
         callbackURL: `${window.location.origin}/invite`,
+        errorCallbackURL: `${window.location.origin}/error`,
       })
     } finally {
       setLoading(false)

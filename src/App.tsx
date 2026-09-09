@@ -10,7 +10,7 @@ import { Platforms } from "@/components/Platforms"
 import { Commands } from "@/components/Commands"
 import { CTA } from "@/components/CTA"
 import { Footer } from "@/components/Footer"
-import { Toaster } from "sonner"
+import { Toaster, toast } from "sonner"
 import { TooltipProvider } from "@/components/ui/Tooltip"
 import { LINKS } from "@/lib/links"
 
@@ -65,6 +65,20 @@ function InviteGate() {
   return null
 }
 
+function ErrorGate() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const code = params.get("error") ?? "unknown_error"
+    toast.error(`Login failed (${code}). Please try again.`)
+    navigate("/", { replace: true })
+  }, [location.search, navigate])
+
+  return null
+}
+
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => {
@@ -83,6 +97,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/invite" element={<InviteGate />} />
+          <Route path="/error" element={<ErrorGate />} />
           <Route path="/features" element={<FeaturesPage />} />
           <Route path="/commands" element={<CommandsPage />} />
           <Route path="/stats" element={<StatsPage />} />
