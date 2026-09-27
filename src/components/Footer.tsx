@@ -1,10 +1,11 @@
-import { Heart } from "lucide-react"
 import { LINKS } from "@/lib/links"
 
 const resources = [
   { label: "Commands", href: "/commands" },
   { label: "Features", href: "#features" },
   { label: "Stats", href: "#stats" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms" },
 ]
 
 const community = [
@@ -62,16 +63,9 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
           <div className="text-xs text-text-disabled">© 2026 Rynote. All rights reserved.</div>
-          <div className="flex items-center gap-1.5 text-xs text-text-muted">
-            Made with <Heart className="h-3 w-3 text-danger fill-danger" /> by{" "}
-            <a
-              href={LINKS.poweredBy}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-text-primary transition-colors"
-            >
-              Rynex
-            </a>
+          <div className="flex items-center gap-4 text-xs text-text-muted">
+            <FooterLink href="/privacy">Privacy Policy</FooterLink>
+            <FooterLink href="/terms">Terms of Service</FooterLink>
           </div>
         </div>
       </div>
